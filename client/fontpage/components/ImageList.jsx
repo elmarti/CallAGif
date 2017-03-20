@@ -15,8 +15,8 @@ export default class ImageList extends Component{
              {
                  this.props.images.map((image, index)=>(
                  <Row>
-                 <img onClick={this.changeImage.bind(this, image)} src={image.img} key={index} className="image_history_item"/>
-                 <h4>
+                 <img onClick={this.changeImage.bind(this, image)} src={image.img.url} key={index} className="image_history_item"/>
+                 <h4 className="image_history_title">
                  {image.title}
                  </h4>
                  </Row>

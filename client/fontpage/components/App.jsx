@@ -55,9 +55,13 @@ class App extends Component {
                         if (err) console.log(err);
                         else {
                             let oldImages = this.state.oldImages;
-                            if (this.state.imgUrl)
-                                oldImages.unshift({img:this.state.imgUrl, title:oldSearchString});
-
+                            if (this.state.imgUrl) {
+                                oldImages.unshift({
+                                    img: this.state.imgUrl,
+                                    title: oldSearchString
+                                });
+                                oldImages.splice(10, 1);
+                            }
                             this.setState({
                                 imgUrl,
                                 oldImages
@@ -81,16 +85,21 @@ class App extends Component {
         });
 
     }
-    changeImage(image){
-        let {searchString, imgUrl, oldImages} = this.state; 
+    changeImage(image) {
+        let {
+            searchString,
+            imgUrl,
+            oldImages
+        } = this.state;
         oldImages.unshift({
-            img:imgUrl,
-            title:searchString
+            img: imgUrl,
+            title: searchString
         });
+        oldImages.splice(10, 1);
         this.setState({
-            oldImages, 
-            imgUrl:image.img, 
-            searchString:image.title
+            oldImages,
+            imgUrl: image.img,
+            searchString: image.title
         })
     }
     render() {
@@ -102,10 +111,10 @@ class App extends Component {
             <IntroModal listening={this.state.listening} recogniser={annyang} show={this.state.showModal} close={this.closeModal.bind(this)}/>
              <Row className="gif_wrapper">
              {this.state.loading ? "Loading..." : 
-             this.state.imgUrl ? <img src={this.state.imgUrl} id="the_gif"/> :""}
+             this.state.imgUrl ? <img src={this.state.imgUrl.url} id="the_gif"/> :""}
              </Row>
              <Row className="title_wrapper">
-                <h1>{this.state.searchString}</h1>
+                <h1>{this.state.searchString} - {this.state.imgUrl ? this.state.imgUrl.count : ""}</h1>
              </Row>
              <Row className="bottom_row">
              <Col md={6}>
