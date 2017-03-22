@@ -19,7 +19,7 @@ import {
 }
 from '../';
 import annyang from 'annyang';
-class App extends Component {
+export default class App extends Component {
     constructor() {
         super();
         this.state = {
@@ -107,28 +107,44 @@ class App extends Component {
             content
         } = this.props;
         return (
+            <div id="page-wrapper">
+            <div id="page-container">
+            <div id="main-container">
+            <header className="navbar navbar-default">
+            <h1 style={{paddingLeft:"20px"}}>Call A Gif</h1>
+            </header>
+            <div id="page-content">
             <Grid>
             <IntroModal listening={this.state.listening} recogniser={annyang} show={this.state.showModal} close={this.closeModal.bind(this)}/>
-             <Row className="gif_wrapper">
+             <Row className="block" style={{textAlign:"center"}}>
+             <div className="block-title">
+                    <h2>{this.state.searchString} - {this.state.imgUrl ? "Said " + this.state.imgUrl.count + " times." : ""}</h2>
+             </div>
              {this.state.loading ? "Loading..." : 
-             this.state.imgUrl ? <img src={this.state.imgUrl.url} id="the_gif"/> :""}
+             this.state.imgUrl ? <img src={this.state.imgUrl.url} id="the_gif"/> :"Say something!!!"}
              </Row>
-             <Row className="title_wrapper">
-                <h1>{this.state.searchString} - {this.state.imgUrl ? this.state.imgUrl.count : ""}</h1>
+             <Row style={{paddingBottom:"20px", textAlign:"center", margin:"0px"}}>
+             <img src="/giphy.gif" style={{height:"70px"}} />
              </Row>
              <Row className="bottom_row">
              <Col md={6}>
              
+             <div className="block">
+                <div className="block-title">
+                    <h2>TODO</h2>
+                </div>
+             
+             </div>
              </Col>
              
             <ImageList changeImage={this.changeImage.bind(this)} images={this.state.oldImages}/>
              </Row>
             </Grid>
+            </div>
+            </div>
+            </div>
+            </div>
         )
     }
 }
 
-export default createContainer(() => {
-
-    return {};
-}, App);

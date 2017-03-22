@@ -11,7 +11,7 @@ import {
     createContainer
 }
 from 'meteor/react-meteor-data';
-class IntroModal extends Component {
+export default class IntroModal extends Component {
 
     render() {
         let content = "";
@@ -30,9 +30,9 @@ class IntroModal extends Component {
         return (
             <Modal show={this.props.show}>
           <Modal.Body>
-            <h1>Welcome to CallAGif!</h1>
-            <h4>CallAGif allows you to look up Gifs using your voice!</h4>
-           {content}
+            <h1 className="alt-text">Welcome to CallAGif!</h1>
+            <h4 className="alt-text">CallAGif allows you to look up Gifs using your voice!</h4>
+          <p  className="alt-text"> {content}</p>
             </Modal.Body>
           <Modal.Footer>
            {this.props.recogniser ? this.props.listening ? <Button onClick={this.props.close}>Start</Button> : <Button disabled>Please allow access to you microphone</Button> : <Button disabled>Open in a better browser to continue</Button>}
@@ -43,6 +43,4 @@ class IntroModal extends Component {
     }
 }
 
-export default createContainer(() => {
-    return {};
-}, IntroModal);
+

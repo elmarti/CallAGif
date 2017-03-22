@@ -1,0 +1,24 @@
+#the_gif {
+    min-height: 50vh;
+    max-width: 70vw;
+}
+
+.image_list {
+    text-align: center;
+    max-height: 50vh;
+}
+
+.image_history_title {
+    cursor: pointer;
+}
+
+.image_history_item {
+    width: 100%;
+    cursor: pointer;
+}
+
+.image_block {
+    max-height: 50vh;
+    overflow: hidden;
+    overflow-y: scroll;
+}

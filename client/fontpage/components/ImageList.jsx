@@ -11,7 +11,12 @@ export default class ImageList extends Component{
     render(){
         console.log(this.props.images)
         return (
-             <Col className="image_list" md={6}>
+             <Col md={6}>
+             <div className="block image_block">
+             <div className="block-title">
+                <h2>History</h2>
+             </div>
+             <div className="image_list">
              {
                  this.props.images.map((image, index)=>(
                  <Row>
@@ -22,6 +27,8 @@ export default class ImageList extends Component{
                  </Row>
                  ))
              }
+             </div>
+             </div>
              </Col>
             );
     }
