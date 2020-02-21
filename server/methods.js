@@ -4,7 +4,9 @@ import {
 from 'meteor/http';
 import GifsCollection from '../lib/gifs';
 GifsCollection._ensureIndex({search:1})
-
+function random(mn, mx) {
+    return Math.floor(Math.random() * (mx - mn) + mn);
+}
 Meteor.methods({
     "getGif" (search) {
         const text = search;
@@ -45,7 +47,7 @@ Meteor.methods({
                 }, updateText);
                 return {
                     count:record.count + 1 ,
-                    url: record.data[Math.floor(Math.random() * record.data.length)].images.original.url
+                    url: record.data[random(0, record.data.length -1)].images.original.url
                 };
             }
         }
