@@ -3,6 +3,8 @@ import {
 }
 from 'meteor/http';
 import GifsCollection from '../lib/gifs';
+GifsCollection._ensureIndex({search:1})
+
 Meteor.methods({
     "getGif" (search) {
         const text = search;
@@ -14,28 +16,42 @@ Meteor.methods({
             data:1
         });
         if (record) {
-            let updateText = {
+            const updateText = {
                 $inc: {
                     count: 1
                 }
             };
-            if ((record.count / 1000) % 1 !== 0) {
+            const weekAgo = new Date();
+            weekAgo.setDate(weekAgo.getDate()-5);
+            if(new Date(record.dateUpdated) < weekAgo ) {
+                console.log('requesting old', search);
                 let data = JSON.parse(HTTP.call("GET", 'https://api.giphy.com/v1/gifs/search?q=' + formattedSearch + '&api_key=dc6zaTOxFJmzC&limit=5').content);
                 delete data.pagination;
                 delete data.meta;
                 updateText.$set = {
                     data: data.data
                 };
+
+                GifsCollection.update({
+                    _id: record._id
+                }, updateText);
+                return {
+                    count: record ? record.count + 1 : 1,
+                    url: record.data[Math.floor(Math.random() * record.data.length)].images.original.url
+                };
+            } else {
+                GifsCollection.update({
+                    _id: record._id
+                }, updateText);
+                return {
+                    count:record.count + 1 ,
+                    url: record.data[Math.floor(Math.random() * record.data.length)].images.original.url
+                };
             }
-            GifsCollection.update({
-                search
-            }, updateText);
-            return {
-                count: record ? record.count + 1 : 1,
-                url: record.data[Math.floor(Math.random() * record.data.length)].images.original.url
-            };
         }
         else {
+            console.log('requesting new', search);
+
             let data = JSON.parse(HTTP.call("GET", 'https://api.giphy.com/v1/gifs/search?q=' + formattedSearch + '&api_key=dc6zaTOxFJmzC&limit=5').content);
             delete data.pagination;
             delete data.meta;
